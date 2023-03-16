@@ -2,14 +2,12 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useEffect, useRef, useState } from "react";
 import { RiCloseCircleLine } from "react-icons/ri";
+import {IoCheckmarkSharp,IoReloadOutline } from "react-icons/io5";
 import { TiEdit } from "react-icons/ti";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState("");
-
-    
-
 
   function deleteItem(i) {
     let newTodo = todos.filter((item, index) => {
@@ -21,21 +19,23 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault(); //submit prevent cheyyan
-    console.log("hai"+todo.trim()+"hell")
-    if(todo.trim()){ //removing the space and check
-      setTodos([...todos,{ text:todo , status:false}])
-    localStorage.setItem("todo", JSON.stringify([...todos,{ text:todo , status:false}]))//key value
-
+    console.log("hai" + todo.trim() + "hell");
+    if (todo.trim()) {
+      //removing the space and check
+      setTodos([...todos, { text: todo, status: false }]);
+      localStorage.setItem(
+        "todo",
+        JSON.stringify([...todos, { text: todo, status: false }])
+      ); //key value
     }
-    
-    setTodo('')
+
+    setTodo("");
   }
 
   function completeTodo(i) {
-
     let newTodo = todos.map((item, index) => {
       if (index == i) {
-        item.status =!item.status;
+        item.status = !item.status;
       }
       return item;
     });
@@ -43,17 +43,16 @@ function App() {
     localStorage.setItem("todo", JSON.stringify([...newTodo]));
   }
 
-  const todoInputRef=useRef();
+  const todoInputRef = useRef();
   // console.log(todoInputRef.current)
-  useEffect(()=>{
+  useEffect(() => {
     todoInputRef.current.focus();
-    if(localStorage.getItem('todo')){ //key from handlesum
-      setTodos(JSON.parse(localStorage.getItem('todo')))
+    if (localStorage.getItem("todo")) {
+      //key from handlesum
+      setTodos(JSON.parse(localStorage.getItem("todo")));
     }
     // todoInputRef.current.style.color="red"
-  },[])
-
-
+  }, []);
 
   return (
     <div className="App">
@@ -63,7 +62,8 @@ function App() {
         <form onSubmit={handleSubmit} className="todo-form">
           <input
             value={todo}
-            ref={todoInputRef} onChange={(event) => setTodo(event.target.value)}
+            ref={todoInputRef}
+            onChange={(event) => setTodo(event.target.value)}
             type="text"
             placeholder="update your item"
             className="todo-input edit"
@@ -79,11 +79,33 @@ function App() {
               className={value.status ? "todo-row complete" : "todo-row"}
               key={index}
             >
-              <div key={index} onClick={()=>completeTodo(index)}>
-                {value.text}
-                </div>
+              <div key={index} onClick={() => completeTodo(index)}>
+               <a>{value.text}</a>
+              </div>
 
               <div className="icons">
+
+
+                {/* if(value.status){
+                  <IoCheckmarkSharp onClick={()=>{completeTodo(index)}} /> 
+
+                }else{
+                  <IoReloadOutline onClick={()=>{completeTodo(index)}} />
+
+                } */}
+
+                {
+                  value.status? (
+                    <IoReloadOutline onClick={() => completeTodo(index)} className='complete-icon' />
+                  ) : (
+                    <IoCheckmarkSharp onClick={() => completeTodo(index)} className='reeload-icon' />
+                  )
+                }
+              
+             
+
+             
+
                 <RiCloseCircleLine
                   onClick={() => deleteItem(index)}
                   className="delete-icon"

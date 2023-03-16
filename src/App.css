@@ -142,6 +142,19 @@ h1 {
   color: #fff;
 }
 
+.complete-icon {
+  
+  font-weight: bold !important;;
+  margin-right: 5px;
+  color: #eaeaea;
+}
+
+.reeload-icon {
+  margin-right: 5px;
+  font-weight: bold;
+  color: #fff;
+}
+
 .edit-icon {
   color: #fff;
 }
